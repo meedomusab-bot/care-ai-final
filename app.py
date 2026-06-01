@@ -2,14 +2,15 @@ import streamlit as st
 from PIL import Image
 
 st.title("Car AI System 🚗")
-uploaded_file = st.file_uploader("ارفع صورة...", type=["jpg", "png"])
+uploaded_file = st.file_uploader("ارفع صورة السيارة...", type=["jpg", "png"])
 
 if uploaded_file is not None:
     image = Image.open(uploaded_file)
     st.image(image, caption='الصورة المرفوعة')
-
-    if st.button("اكتشف السيارات"):
-        with st.spinner("جاري التحليل..."):
+    
+    # تحميل الذكاء الاصطناعي فقط عند الطلب
+    if st.button("اكتشف السيارات في الصورة"):
+        with st.spinner("جاري تحميل النموذج والتحليل..."):
             try:
                 from ultralytics import YOLO
                 model = YOLO('yolov8n.pt')
