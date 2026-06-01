@@ -1,0 +1,19 @@
+import streamlit as st
+import google.generativeai as genai
+
+# إعداد مفتاح الـ API
+genai.configure(api_key="YOUR_API_KEY")
+model = genai.GenerativeModel('gemini-pro')
+
+st.title("🚗 كاشف أعطال السيارات الذكي")
+
+user_code = st.text_input("أدخل كود العطل (مثل P0300):").upper()
+
+if st.button("تحليل العطل بالذكاء الاصطناعي"):
+    if user_code:
+        with st.spinner("جاري تحليل العطل بواسطة خبير الذكاء الاصطناعي..."):
+            prompt = f"أنت ميكانيكي سيارات خبير. ما معنى كود العطل {user_code} في السيارات، وما هي أسبابه الشائعة وكيف يمكن إصلاحه؟ اشرح باختصار."
+            response = model.generate_content(prompt)
+            st.write(response.text)
+    else:
+        st.warning("الرجاء إدخال كود العطل!")
